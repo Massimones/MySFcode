@@ -5,6 +5,6 @@ The code is presented in the manuscript submitted to Computers and Geosciences: 
 
 The three directories contain:
 
-- EDGRN_sf_EDCMP_sf_Source_code -----> Sorce code
-- Examples                      -----> Examples of application of the code
+- EDGRN_sf_EDCMP_sf_Source_code -----> Source code
+- Examples                      -----> Examples of applications of the code
 - Generate_SF_distribution      -----> Scripts generating the distribution of single forces
