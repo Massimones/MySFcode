@@ -32,12 +32,12 @@ c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       ZP=ZR-DEPTH
       r= SQRT(XP**2 + YP**2)    
       R1=SQRT(r**2+(ZR-DEPTH)**2)
-      R2=SQRT(r**2+(ZR+DEPTH)**2)                                             
+      R2=SQRT(r**2+(ZR+DEPTH)**2)                                           
 C=====  FX CONTRIBUTION  ==============                                 
 C======================================
        DO  I=1,12 
         U(I)=F0  
-       END DO                      
+       END DO                    
       IF(POT1.NE.F0) THEN   
         DU( 1)=XP*YP/(16*pi*mu*(1-nu))*(1/(R1**3)
      &    +(3-4*nu)/(R2**3)
@@ -197,24 +197,35 @@ C======================================
      &    -3*(ZR-DEPTH)**2/R1**5-(3*(3-4*nu)*ZR*(ZR+DEPTH)
      &    -3*DEPTH*(3*ZR+DEPTH))/R2**5
      &    -30*DEPTH*ZR*(ZR+DEPTH)**2/R2**7)
-      IF(YP.NE.F0) THEN 
-        matrRot(1,1)= YP/r   
-        matrRot(2,2)= YP/r
-      ELSE
-        matrRot(1,1)= 1   
-        matrRot(2,2)= 1
-      ENDIF      
-      IF(XP.NE.F0) THEN 
-        matrRot(1,2)= -XP/r   
-        matrRot(2,1)= XP/r
-      ELSE
-        matrRot(1,2)= -1   
-        matrRot(2,1)= 1
-      ENDIF     
+         IF(r.Eq.F0) THEN 
+             matrRot(1,1)= 1   
+             matrRot(2,2)= 1
+             matrRot(1,2)= -1   
+             matrRot(2,1)= 1
+        ELSE
+             matrRot(1,1)= YP/r   
+             matrRot(2,2)= YP/r
+             matrRot(1,2)= -XP/r   
+             matrRot(2,1)= XP/r
+        ENDIF
+c      IF(YP.NE.F0) THEN 
+c   matrRot(1,1)= YP/r   
+c   matrRot(2,2)= YP/r
+c ELSE
+c   matrRot(1,1)= 1   
+c   matrRot(2,2)= 1
+c ENDIF      
+c IF(XP.NE.F0) THEN 
+c   matrRot(1,2)= -XP/r   
+c   matrRot(2,1)= XP/r
+c ELSE
+c   matrRot(1,2)= -1   
+c   matrRot(2,1)= 1
+c ENDIF     
         matrRot(1,3)= 0.d0
-        matrRot(2,3)= 0
-        matrRot(3,1)= 0
-        matrRot(3,2)= 0
+        matrRot(2,3)= 0.d0
+        matrRot(3,1)= 0.d0
+        matrRot(3,2)= 0.d0
         matrRot(3,3)= 1
         matrScyl(1,1)= SR      
         matrScyl(1,2)= 0.d0
@@ -232,7 +243,7 @@ C======================================
         SZY= matrScar(1,3)                                       
         SXX= matrScar(2,2)                 
         SZX= matrScar(2,3)
-        SZZ= matrScar(3,3)                                      
+        SZZ= matrScar(3,3)                           
         DU( 4)= 1/(2*mu)*(SXX-lambda/(3*lambda+2*mu)*(SXX+SYY+SZZ))                           
         DU( 5)= 1/(2*mu)*SYX                       
         DU( 6)= 1/(2*mu)*SZX                             
